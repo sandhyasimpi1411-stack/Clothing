@@ -124,7 +124,7 @@ const App = () => {
           {/*  ADMIN AUTH  */}
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/signup" element={<AdminSignup />} />
-                    <Route path="/admin/dashboard" element={<Dashboard />} />
+          <Route path="/admin/dashboard" element={<Dashboard />} />
           <Route path="/admin/analytics" element={<Analytics />} />
           <Route path="/admin/customers" element={<CustomerManagement />} />
           <Route path="/admin/orders" element={<OrderManagement />} />
@@ -136,9 +136,7 @@ const App = () => {
           <Route path="/admin/coupons" element={<Coupons />} />
           <Route path="/admin/inventory" element={<Inventory />} />
           <Route path="/admin/products/add" element={<AddProduct />} />
-          
 
-         
           {/* <Route path="/admin/whatsapp" element={<WhatsAppAutomation />} /> */}
 
           {/*  FALLBACK  */}

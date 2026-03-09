@@ -1,21 +1,20 @@
-
 import heroImage from "../../assets/Home/herobg2.webp";
 import HeroCarousel from "./HeroCarousel";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import BrandStory from "./BrandStory";
 import InnerCircle from "./InnerCircle";
 import { Link } from "react-router-dom";
 import Coupons from "../../components/Home/Coupons";
 import API from "../../api/axios";
-
+import "./Home.css";
 
 const AnimatedHeading = () => {
   const text = "Style for Every Story";
   const [displayedText, setDisplayedText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
-  
-    useEffect(() => {
+
+  useEffect(() => {
     let timeout;
     if (!isDeleting && displayedText.length < text.length) {
       timeout = setTimeout(() => {
@@ -33,22 +32,55 @@ const AnimatedHeading = () => {
       }, 500);
     }
 
-
     return () => clearTimeout(timeout);
   }, [displayedText, isDeleting]);
 
   return (
-    <div className="min-h-[60px] sm:min-h-[80px] md:min-h-[110px] flex items-center justify-center">
-      <h1 className="cinzel text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-wide leading-tight text-white text-center px-2">
+    <div className="min-h-[40px] sm:min-h-[50px] md:min-h-[70px]">
+      <h1 className="hero-main-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
         <b>{displayedText}</b>
+        <span
+          className="inline-block w-[2px] h-[0.8em] ml-1 align-middle"
+          style={{
+            background: "var(--gold)",
+            animation: "gentlePulse 1s ease-in-out infinite",
+          }}
+        ></span>
       </h1>
     </div>
   );
 };
 
+/* ─── Scroll Reveal Hook ─── */
+const useScrollReveal = () => {
+  const observe = useCallback((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(observe, {
+      threshold: 0.12,
+      rootMargin: "0px 0px -40px 0px",
+    });
+    document
+      .querySelectorAll(".sr, .sr-left, .sr-right, .sr-scale")
+      .forEach((el) => {
+        observer.observe(el);
+      });
+    return () => observer.disconnect();
+  }, [observe]);
+};
+
 const Landing = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
+
+  /* ─── Activate scroll reveals ─── */
+  useScrollReveal();
 
   /* ================= FETCH PRODUCTS (LOGIC ONLY) ================= */
   useEffect(() => {
@@ -60,49 +92,47 @@ const Landing = () => {
         const newArrivals = [...data]
           .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
           .slice(0, 2)
-          .map(p => ({ ...p, badge: "NEW ARRIVAL" }));
+          .map((p) => ({ ...p, badge: "NEW ARRIVAL" }));
 
         const trending = data
-          .filter(p => p.isTrending)
+          .filter((p) => p.isTrending)
           .slice(0, 2)
-          .map(p => ({ ...p, badge: "TRENDING" }));
+          .map((p) => ({ ...p, badge: "TRENDING" }));
 
         const premium = data
-          .filter(p => p.isPremium)
+          .filter((p) => p.isPremium)
           .slice(0, 2)
-          .map(p => ({ ...p, badge: "PREMIUM" }));
+          .map((p) => ({ ...p, badge: "PREMIUM" }));
 
         const limited = data
-          .filter(p => p.isLimited)
+          .filter((p) => p.isLimited)
           .slice(0, 2)
-          .map(p => ({ ...p, badge: "LIMITED EDITION" }));
+          .map((p) => ({ ...p, badge: "LIMITED EDITION" }));
 
-        const usedIds = new Set([
+        const usedIds = new Set(
+          [...newArrivals, ...trending, ...premium, ...limited].map(
+            (p) => p._id,
+          ),
+        );
+
+        const bestSeller = data
+          .filter((p) => !usedIds.has(p._id))
+          .slice(0, 2)
+          .map((p) => ({ ...p, badge: "BEST SELLER" }));
+
+        const final = [
+          ...bestSeller,
           ...newArrivals,
           ...trending,
           ...premium,
-          ...limited
-        ].map(p => p._id));
+          ...limited,
+        ];
 
-        const bestSeller = data
-          .filter(p => !usedIds.has(p._id))
-          .slice(0, 2)
-          .map(p => ({ ...p, badge: "BEST SELLER" }));
+        const unique = Array.from(
+          new Map(final.map((p) => [p._id, p])).values(),
+        );
 
-        const final = [
-  ...bestSeller,
-  ...newArrivals,
-  ...trending,
-  ...premium,
-  ...limited,
-];
-
-const unique = Array.from(
-  new Map(final.map(p => [p._id, p])).values()
-);
-
-setProducts(unique.slice(0, 8));
-
+        setProducts(unique.slice(0, 8));
       } catch (err) {
         console.error(err);
       }
@@ -110,126 +140,351 @@ setProducts(unique.slice(0, 8));
 
     fetchProducts();
   }, []);
+
   return (
-    <div className="w-full overflow-hidden">
-      {/* HERO SECTION */}
-      <section className="relative w-full h-[60vh] sm:h-[80vh] md:h-screen overflow-hidden">
-        <img
-          src={heroImage}
-          alt="Hero"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
+    <div className="home-editorial">
+      {/* ════════════════════════════════════════════════════════════
+           HERO — ULTRA-ADVANCED LIGHT LUXURY
+           ════════════════════════════════════════════════════════════ */}
+      <section className="hero-editorial">
+        {/* Gold progress bar at top */}
+        <div className="hero-progress">
+          <div className="hero-progress-bar"></div>
+        </div>
 
-        <div className="absolute inset-0 bg-black/40" />
+        {/* Golden ratio grid overlay */}
+        <div className="hero-grid-overlay">
+          <div className="grid-line-v" style={{ left: "38.2%" }}></div>
+          <div className="grid-line-v" style={{ left: "61.8%" }}></div>
+          <div className="grid-line-h" style={{ top: "38.2%" }}></div>
+          <div className="grid-line-h" style={{ top: "61.8%" }}></div>
+        </div>
 
-        <div className="absolute inset-0 flex items-center justify-center text-center px-4 sm:px-6">
-          <div className="max-w-3xl text-white">
+        {/* Parallax floating shapes */}
+        <div className="hero-shape hero-shape-diamond"></div>
+        <div className="hero-shape hero-shape-circle"></div>
+        <div className="hero-shape hero-shape-cross"></div>
+        <div className="hero-shape hero-shape-dot"></div>
+
+        {/* LEFT — Content panel */}
+        <div className="hero-content-panel">
+          {/* Background watermark */}
+          <div className="hero-watermark">ATELIER</div>
+
+          {/* Outline text — decorative */}
+          <div
+            className="hero-outline-text"
+            style={{ position: "relative", zIndex: 5 }}
+          >
+            LUXURY
+          </div>
+
+          <div
+            className="hero-eyebrow"
+            style={{ position: "relative", zIndex: 5 }}
+          >
+            <span>Luxury Fashion — 2026</span>
+          </div>
+
+          <div style={{ position: "relative", zIndex: 5 }}>
             <AnimatedHeading />
+          </div>
 
-            <p className="cinzel mt-3 text-sm sm:text-sm md:text-lg lg:text-xl tracking-wide text-gray-200 px-2">
-              From little moments to big occasions — explore fashion for men,
-              women, and kids. Designed for comfort, crafted for confidence.
-            </p>
+          <p
+            className="hero-subtext cinzel text-sm sm:text-sm md:text-base lg:text-lg mt-4"
+            style={{ position: "relative", zIndex: 5 }}
+          >
+            From little moments to big occasions — explore fashion for men,
+            women, and kids. Designed for comfort, crafted for confidence.
+          </p>
 
-            <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
-              <Link to="/collections">
-                <button className="cinzel border border-white px-6 sm:px-8 py-2.5 sm:py-3 text-xs sm:text-sm tracking-wider uppercase hover:bg-white hover:text-black transition duration-300 w-full sm:w-auto">
-                  Shop Collection
-                </button>
-              </Link>
+          <div
+            className="flex flex-col sm:flex-row items-start gap-4"
+            style={{ position: "relative", zIndex: 5 }}
+          >
+            <Link to="/collections">
+              <button className="hero-cta">
+                <span>Shop Collection</span>
+                <span className="hero-cta-arrow">→</span>
+              </button>
+            </Link>
+          </div>
+
+          {/* Trust bar */}
+          <div
+            className="hero-trust-bar"
+            style={{ position: "relative", zIndex: 5 }}
+          >
+            <div className="hero-trust-item">
+              <span className="hero-trust-number">50K+</span>
+              <span className="hero-trust-label">Happy Customers</span>
             </div>
+            <div className="hero-trust-divider"></div>
+            <div className="hero-trust-item">
+              <span className="hero-trust-number">100%</span>
+              <span className="hero-trust-label">Premium Quality</span>
+            </div>
+            <div className="hero-trust-divider"></div>
+            <div className="hero-trust-item">
+              <span className="hero-trust-number">India</span>
+              <span className="hero-trust-label">Handcrafted</span>
+            </div>
+          </div>
+
+          {/* Scroll indicator */}
+          <div className="scroll-indicator hidden md:flex">
+            <span
+              className="outfit text-[9px] tracking-[0.3em] uppercase"
+              style={{ color: "var(--gold)", opacity: 0.6 }}
+            >
+              Scroll
+            </span>
+            <div className="scroll-line"></div>
+          </div>
+        </div>
+
+        {/* RIGHT — Image panel */}
+        <div className="hero-image-panel">
+          <img src={heroImage} alt="Hero" />
+          {/* Film grain overlay */}
+          <div className="hero-grain"></div>
+          {/* Corner accent frames */}
+          <div className="hero-image-accent hero-image-accent-tl"></div>
+          <div className="hero-image-accent hero-image-accent-br"></div>
+          {/* Year badge */}
+          <div className="hero-year-badge">26</div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════════
+           MARQUEE — BRAND TICKER (Light mode)
+           ════════════════════════════════════════════════════════════ */}
+      <div
+        style={{
+          background: "var(--ivory)",
+          borderTop: "1px solid var(--gold-pale)",
+          borderBottom: "1px solid var(--gold-pale)",
+        }}
+        className="py-4 overflow-hidden"
+      >
+        <div className="marquee-wrapper">
+          <div className="marquee-track">
+            {[...Array(2)].map((_, i) => (
+              <div
+                key={i}
+                className="flex items-center gap-8 px-4"
+                style={{ minWidth: "100%", justifyContent: "space-around" }}
+              >
+                {[
+                  "PREMIUM",
+                  "✦",
+                  "HANDCRAFTED",
+                  "✦",
+                  "LUXURY",
+                  "✦",
+                  "TIMELESS",
+                  "✦",
+                  "EXCLUSIVE",
+                  "✦",
+                  "ARTISAN",
+                  "✦",
+                ].map((word, j) => (
+                  <span
+                    key={j}
+                    className="outfit text-[11px] tracking-[0.4em] uppercase shrink-0"
+                    style={{
+                      color:
+                        word === "✦" ? "var(--gold)" : "rgba(10,10,10,0.25)",
+                    }}
+                  >
+                    {word}
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ════════════════════════════════════════════════════════════
+           PREMIUM / WARDROBE PICKS — CAROUSEL
+           ════════════════════════════════════════════════════════════ */}
+      <div className="section-editorial section-noir">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10 sm:mb-14">
+            <div>
+              <div className="editorial-label sr visible">
+                <span>Curated Selection</span>
+              </div>
+              <p className="editorial-title text-3xl sm:text-5xl md:text-6xl text-white sr visible sr-d1">
+                <b>PREMIUM</b>
+              </p>
+            </div>
+            <button
+              className="outfit text-sm sm:text-base tracking-[0.15em] uppercase pb-1 text-white/60 hover:text-white transition-colors duration-300 sr visible sr-d2"
+              style={{ borderBottom: "1px solid var(--gold)" }}
+            >
+              Wardrobe Picks
+            </button>
+          </div>
+        </div>
+
+        <HeroCarousel />
+      </div>
+
+      {/* ════════════════════════════════════════════════════════════
+           PRODUCT GRID — EDITORIAL SHOWCASE
+           ════════════════════════════════════════════════════════════ */}
+      <section className="section-editorial section-silk">
+        <div className="max-w-7xl mx-auto">
+          {/* Header — asymmetric layout */}
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-4 sr visible">
+            <div>
+              <div className="editorial-label">
+                <span>Here For You</span>
+              </div>
+              <p
+                className="editorial-title text-3xl sm:text-5xl md:text-6xl"
+                style={{ color: "var(--noir)" }}
+              >
+                The Edit
+              </p>
+            </div>
+          </div>
+
+          <div className="permanent-marker-regular flex gap-4 sm:gap-8 mb-8 sm:mb-12 sr visible sr-d1">
+            <button
+              className="text-base sm:text-xl tracking-wide pb-2 text-inherit"
+              style={{ borderBottom: "2px solid var(--gold)" }}
+            >
+              BESTSELLER
+            </button>
+
+            <button className="text-base sm:text-xl tracking-wide text-gray-400 transition-colors duration-300 hover:text-gray-600 pb-2">
+              THIS IS NEW
+            </button>
+          </div>
+
+          {/* ─── PRODUCT GRID — Asymmetric editorial ─── */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {products.map((item, i) => (
+              <Link
+                key={`${item._id}-${i}`}
+                to={`/product/${item._id}`}
+                className="group block bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300"
+              >
+                {/* Image Section */}
+                <div className="relative overflow-hidden">
+                  <img
+                    src={item.colors?.[0]?.images?.[0] || "/fallback.jpg"}
+                    alt={item.name}
+                    className="w-full h-[260px] sm:h-[320px] md:h-[360px] lg:h-[400px] object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+
+                  {/* Badge */}
+                  {item.badge && (
+                    <span className="absolute top-3 left-3 bg-black text-white text-xs px-3 py-1 rounded-full">
+                      {item.badge}
+                    </span>
+                  )}
+
+                  {/* Hover Overlay */}
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition duration-300">
+                    <span className="text-white text-sm tracking-wide">
+                      View Details
+                    </span>
+                  </div>
+                </div>
+
+                {/* Details */}
+                <div className="p-4 space-y-1">
+                  <p className="text-sm font-medium text-gray-900 line-clamp-2">
+                    {item.name}
+                  </p>
+
+                  <p className="text-base font-semibold text-black">
+                    ₹{item.discountPrice ?? item.price ?? 0}
+                  </p>
+
+                  <p className="text-xs text-gray-500">
+                    <b>Size:</b>{" "}
+                    {item.sizes?.length ? item.sizes.join(", ") : "Free Size"}
+                  </p>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* PREMIUM */}
-      <p className="tracking-widest cinzel text-2xl sm:text-4xl md:text-5xl mt-8 mb-2 flex justify-center text-center px-2">
-        <b>PREMIUM</b>
-      </p>
-
-      <div className="flex justify-center gap-6 sm:gap-10 px-2">
-        <button className="cinzel text-lg sm:text-2xl tracking-wide border-b-2 border-black pb-2">
-          Wardrobe Picks
-        </button>
-      </div>
-
-      <HeroCarousel />
-
- 
-      {/* PRODUCT SECTION */}
-      <section className="max-w-7xl mx-auto px-3 sm:px-6 py-8 sm:py-10">
-        <p className="tracking-widest cinzel text-base sm:text-xl mb-4 flex justify-center text-center">
-          HERE FOR YOU
-        </p>
-
-        <div className="permanent-marker-regular flex justify-center gap-4 sm:gap-8 mb-8 sm:mb-14 text-center">
-          <button className="text-base sm:text-2xl tracking-wide border-b-2 border-black pb-2">
-            BESTSELLER
-          </button>
-
-          <button className="text-base sm:text-2xl tracking-wide text-gray-400">
-            THIS IS NEW
-          </button>
-        </div>
-
-        {/* GRID */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 lg:gap-8">
-         {products.map((item, i) => (
-  <Link key={`${item._id}-${i}`}to={`/product/${item._id}`}
-              className="group bg-white rounded-xl sm:rounded-2xl overflow-hidden 
-              shadow-[0_5px_20px_rgba(0,0,0,0.25)]
-              sm:shadow-[0_10px_30px_rgba(0,0,0,0.48)]
-              hover:shadow-[0_25px_60px_rgba(0,0,0,0.65)]
-              transition-all duration-500 ease-out
-              hover:-translate-y-2 block"
-            >
-              <div className="relative overflow-hidden">
-                <img
-                src={item.colors?.[0]?.images?.[0] || "/fallback.jpg"}
-                  alt={item.name}
-                  className="w-full h-[180px] sm:h-[260px] md:h-[320px] lg:h-[420px] object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-                />
-
-                
-
-                <span className="absolute bottom-2 right-2 sm:bottom-4 sm:right-4 bg-[#6b5b3e] text-white text-[9px] sm:text-xs px-2 sm:px-3 py-1 tracking-widest uppercase">
-                     {item.badge}
-                </span>
+      {/* ════════════════════════════════════════════════════════════
+           COUPONS — EDITORIAL TREATMENT
+           ════════════════════════════════════════════════════════════ */}
+      <div className="section-editorial section-ivory">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10 sr visible">
+            <div>
+              <div className="editorial-label">
+                <span>Exclusive Offers</span>
               </div>
-
-              <div className="p-2 sm:p-4 text-xs sm:text-sm">
-                <p className="mb-1 cormorant-garamond text-gray-900 tracking-wide">
-                  {item.name}
-
-                </p>
-
-                <p className="cinzel text-sm sm:text-base">
-                  MRP ₹{item.discountPrice ?? item.price ?? 0}
-                </p>
-
-                <p className="cinzel text-sm sm:text-base">
-                 <b>Size:</b> {item.sizes?.length ? item.sizes.join(", ") : "Free Size"}
-
-                </p>
-              </div>
-            </Link>
-          ))}
+              <p
+                className="editorial-title text-3xl sm:text-5xl md:text-6xl"
+                style={{ color: "var(--noir)" }}
+              >
+                Curated Saving
+              </p>
+            </div>
+          </div>
         </div>
-      </section>
-
-
-      {/* COUPONS */}
-      <div className="flex justify-center gap-10 mt-6 px-2">
-        <button className="cinzel text-xl sm:text-3xl tracking-wide border-b-2 border-black pb-2">
-          Curated Saving
-        </button>
+        <Coupons />
       </div>
-
-      <Coupons />
 
       <BrandStory />
 
       <InnerCircle />
+
+      {/* ════════════════════════════════════════════════════════════
+           FOOTER MARQUEE
+           ════════════════════════════════════════════════════════════ */}
+      <div
+        style={{
+          background: "var(--noir)",
+          borderTop: "1px solid rgba(196,162,101,0.12)",
+        }}
+        className="py-5 overflow-hidden"
+      >
+        <div className="marquee-wrapper">
+          <div className="marquee-track" style={{ animationDuration: "25s" }}>
+            {[...Array(2)].map((_, i) => (
+              <div
+                key={i}
+                className="flex items-center gap-12 px-6"
+                style={{ minWidth: "100%", justifyContent: "space-around" }}
+              >
+                {[
+                  "STYLE FOR EVERY STORY",
+                  "◆",
+                  "DESIGNED FOR CONFIDENCE",
+                  "◆",
+                  "CRAFTED IN INDIA",
+                  "◆",
+                ].map((word, j) => (
+                  <span
+                    key={j}
+                    className="playfair text-sm sm:text-lg tracking-[0.2em] shrink-0 italic"
+                    style={{
+                      color:
+                        word === "◆" ? "var(--gold)" : "rgba(255,255,255,0.2)",
+                    }}
+                  >
+                    {word}
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

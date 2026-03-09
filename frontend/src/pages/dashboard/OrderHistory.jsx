@@ -1,150 +1,208 @@
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { FaBoxOpen } from "react-icons/fa";
+
+import { motion } from "framer-motion";
+import { Package } from "lucide-react";
+import { address, div } from "framer-motion/client";
 
 export default function OrderHistory() {
+
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
   const [orders, setOrders] = useState([]);
-useEffect(() => {
-  if (!token) return navigate("/user/login");
 
-  const fetchOrders = () => {
-    axios
-      .get("/api/user/dashboard/orders/my", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => setOrders(res.data || []))
-      .catch(() => setOrders([]));
-  };
+  useEffect(() => {
+    if (!token) return navigate("/user/login");
 
-  fetchOrders();
+    const fetchOrders = () => {
+      axios
+        .get("/api/user/dashboard/orders/my", {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => setOrders(res.data || []))
+        .catch(() => setOrders([]));
+    };
 
-  const interval = setInterval(fetchOrders, 5000); // refresh every 5 sec
+    fetchOrders();
 
-  return () => clearInterval(interval);
-}, []);
+    const interval = setInterval(fetchOrders, 5000); // refresh every 5 sec
 
+    return () => clearInterval(interval);
+  }, []);
 
-  // useEffect(() => {
-  //   if (!token) return navigate("/user/login");
-
-  //   axios
-  //     .get("/api/user/dashboard/orders/my", {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     })
-  //     .then((res) => {
-  //       setOrders(res.data || []);
-  //     })
-  //     .catch((err) => {
-  //       console.error("ORDERS ERROR:", err.response?.data || err);
-  //       setOrders([]);
-  //     });
-  // }, []);
 
   const statusStyle = {
-    Delivered: "bg-green-50 text-green-700 border border-green-200",
-    Shipped: "bg-blue-50 text-blue-700 border border-blue-200",
-    Cancelled: "bg-red-50 text-red-600 border border-red-200",
-    Processing: "bg-yellow-50 text-yellow-700 border border-yellow-200",
+    Delivered: "bg-green-500/20 text-green-400",
+    Shipped: "bg-blue-500/20 text-blue-400",
+    Cancelled: "bg-red-500/20 text-red-400",
+    Processing: "bg-yellow-500/20 text-yellow-400",
   };
 
   return (
-    <div className="bg-white rounded-3xl shadow-xl p-8">
-      {/* Header */}
-      <div className="flex items-center gap-4 mb-10">
-        <div className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center shadow-md">
-          <FaBoxOpen />
-        </div>
-        <div>
-          <h2 className="text-2xl font-bold text-gray-900">My Orders</h2>
-          <p className="text-sm text-gray-500">
-            Return or view your order history
-          </p>
-        </div>
+    <div className="min-h-screen bg-white p-10 text-black">
+
+      {/* HEADER */}
+      <div className="mb-10">
+        <h1 className="text-3xl font-bold">My Orders</h1>
+        <p className="text-sm text-gray-500">Return or view your order history</p>
       </div>
 
-      {/* Orders */}
-      <div className="space-y-6">
+      {/* ORDER */}
+      <div className=" grid md:grid-cols-2 gap-8">
+
         {orders.map((order) => (
-          <div
+
+          <motion.div
             key={order._id}
-            className="bg-gray-50 rounded-2xl p-6 border border-gray-200
-            transition-all duration-300 hover:shadow-lg hover:bg-white"
+
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+
+            whileHover={{
+              rotateX: 6,
+              rotateY: -6,
+              scale: 1.03,
+            }}
+
+            transition={{ type: "spring", stiffness: 120 }}
+
+            className="relative p-6 rounded-2xl bg-gradient-to-br from-gray-700 to-gray-800
+            border border-gray-700 shadow-xl cursor-pointer"
           >
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
-              {/* Left */}
-              <div>
-                <p className="text-lg font-semibold text-gray-900">
-                  Order #{order._id.slice(-6)}
-                </p>
-                <p className="text-sm text-gray-500 mt-1">
-                  Placed on {new Date(order.createdAt).toLocaleDateString()}
-                </p>
-              </div>
 
-              {/* Middle */}
-              <div className="text-sm text-gray-600 space-y-1">
+            {/* Glow effect */}
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-indigo-500/10 to-purple-500/10 blur-xl"></div>
 
-                {/* <p>
-                  <span className="font-medium text-gray-800">Product name:</span>{" "}
-                  {order.items?.map((item, i) => (
-                        <p key={i}>{item.name}</p>
-                      ))}
-                </p> */}
-                <p>
-                  <span className="font-medium text-gray-800">Items:</span>{" "}
-                  {order.items?.length || 0}
-                </p>
-                <p>
-                  <span className="font-medium text-gray-800">Payment:</span>{" "}
-                  {order.paymentMethod || "Online"}
-                </p>
-                <p>
-                  <span className="font-medium text-gray-800">Deliver to:</span>{" "}
-                 {order.shipping?.city || order.shipping?.address || "—"}
-                </p>
-              </div>
+            <div className="relative z-10">
 
-              {/* Right */}
-              <div className="flex flex-wrap lg:justify-end items-center gap-4">
+              {/* HEADER */}
+              <div className="flex justify-between items-center">
+
+                <div className="flex items-center gap-3">
+
+                  <div className="p-3 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600">
+                    <Package size={18} />
+                  </div>
+
+                  <div>
+                    <p className="font-bold text-xl text-white/90">
+                      Order #{order._id.slice(-6)}
+                    </p>
+
+                    <p className="text-xs font-bold text-gray-300">
+                      Placed on:
+                      {new Date(order.createdAt).toLocaleDateString("en-IN", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric"
+                      })}
+                    </p>
+                  </div>
+
+                </div>
+
                 <span
-                  className={`px-4 py-1.5 text-xs font-semibold rounded-full ${
-                    statusStyle[order.status] ||
-                    "bg-gray-100 text-gray-600 border"
-                  }`}
+                  className={`text-sm px-4 py-2 rounded-full font-semibold
+                  ${statusStyle[order.status] ||
+                    'bg-gray-100 text-gray-600 border'
+                    }`}
                 >
                   {order.status}
                 </span>
 
-                <span className="text-xl font-bold text-gray-900">
-                  ₹{order.total}
-                </span>
+              </div>
 
-                <button
+
+              {/* PRODUCT DETAILS */}
+              <div className="flex flex-col md:flex-row gap-3 mt-6 text-white/80 text-sm font-bold">
+
+                <p>
+                  <span>
+                    Items:
+                  </span>
+                  {order.items?.length || 0}
+                </p>
+
+                <p>
+                  <span>Payment:</span>
+                  {order.paymentMethod || 'Online'}
+                </p>
+
+                <p>
+                  <span>Deliver to:</span> {' '}
+                  {order.shipping?.city || order.shipping?.address || '-'}
+                </p>
+
+              </div>
+
+
+              {/* DELIVERY PROGRESS */}
+              <div className="mt-6">
+
+                <div className="flex justify-between text-xs mb-2 text-gray-400">
+                  <span>Order Progress</span>
+                  <span>{order.progress}%</span>
+                </div>
+
+                <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
+
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${order.progress}%` }}
+                    transition={{ duration: 1 }}
+                    className="h-full bg-gradient-to-r from-indigo-500 to-purple-500"
+                  />
+
+                </div>
+
+              </div>
+
+
+              {/* FOOTER */}
+              <div className="flex justify-between items-center mt-6">
+
+                <p className="text-xl font-bold">
+                  ₹{order.total}
+                </p>
+
+                <motion.button
                   onClick={() =>
                     navigate(`/user/dashboard/orders/${order._id}`)
                   }
-                  className="px-5 py-2.5 rounded-xl text-sm font-semibold text-white
-                  bg-black transition-all duration-300
-                  hover:bg-gray-800 hover:shadow-md"
+                  whileTap={{ scale: 0.9 }}
+                  whileHover={{ scale: 1.05 }}
+                  className="px-5 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 text-sm font-semibold"
                 >
                   View Details →
-                </button>
+                </motion.button>
+
               </div>
+
             </div>
-          </div>
+
+          </motion.div>
+
         ))}
+
       </div>
 
-      {/* EMPTY */}
-      {orders.length === 0 && (
-        <div className="text-center py-16 text-gray-500">No orders found</div>
-      )}
+      {
+        orders.length === 0 && (
+          <div className="flex flex-col mt-5">
+            <div className="text-center text-2xl font-semibold text-gray-500">No Orders Found</div>
+            <button
+            onClick={() => 
+              navigate('/')
+            }
+            >
+              Shop Here
+            </button>
+          </div>
+        )
+      }
+
     </div>
   );
-}
+};

@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+
+import { MdMoreVert } from "react-icons/md";
+import { FiEdit } from "react-icons/fi";
+import { FiTrash } from "react-icons/fi";
+
 import {
   Plus,
   Home,
@@ -35,12 +40,9 @@ export default function Address() {
 
   const fetchAddresses = async () => {
     try {
-      const res = await axios.get(
-        "/api/user/dashboard/addresses",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const res = await axios.get("/api/user/dashboard/addresses", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       setAddresses(res.data.addresses || []);
     } catch (err) {
@@ -84,97 +86,136 @@ export default function Address() {
   const deleteAddress = async (id) => {
     if (!window.confirm("Delete this address?")) return;
 
-    await axios.delete(
-      `/api/user/dashboard/addresses/${id}`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
+    await axios.delete(`/api/user/dashboard/addresses/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
     fetchAddresses();
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-12 space-y-10">
+    <div className="max-w-6xl mx-auto px-4 py-8 space-y-10">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h2 className="text-3xl font-bold">Saved Addresses</h2>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-[1rem] text-gray-500 mt-1">
             Manage your saved delivery addresses
           </p>
         </div>
-
-        <button
-          onClick={openAdd}
-          className="flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold text-white
-          bg-black hover:shadow-xl hover:scale-105 transition"
-        >
-          <Plus size={16} /> Add New Address
-        </button>
+      </div>
+      <div
+        onClick={openAdd}
+        className="border border-gray-300 rounded-lg px-6 py-4 flex items-center gap-3 text-blue-600 font-semibold cursor-pointer hover:bg-gray-50 transition"
+      >
+        <Plus size={20} />
+        ADD A NEW ADDRESS
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="space-y-8">
         {addresses.map((item) => {
           const Icon = item.type === "Office" ? Building2 : Home;
 
           return (
             <div
               key={item._id}
-              className="relative bg-white rounded-2xl p-6 shadow-sm
-              hover:shadow-2xl hover:-translate-y-1 transition-all"
+              // className="border border-gray-300 rounded-lg p-5 flex justify-between items-start hover:bg-gray-50 transition"
+              className="relative border border-gray-300 rounded-lg p-5 flex justify-between items-start hover:bg-gray-50 transition"
             >
-              {item.default && (
-                <span className="absolute top-4 right-4 bg-green-500 text-white text-xs px-3 py-1 rounded-full">
-                  Default
-                </span>
-              )}
+              <div className="flex flex-col">
+                <div className="mb-2">
+                  {item.default && (
+                    <span className="absolute top-8 left-30 bg-green-300 text-black text-xs px-3 py-1 rounded-full">
+                      Default
+                    </span>
+                  )}
+                </div>
 
-              <div className="flex items-center gap-4 mb-5">
-                <div
-                  className={`w-12 h-12 rounded-xl flex items-center justify-center text-white
+                <div className="max-w-3xl">
+                  <div className="flex items-center">
+                    <div
+                      className={`w-8 h-8 rounded-xl flex items-center justify-center text-white
                   ${
                     item.type === "Office"
                       ? "bg-gradient-to-br from-blue-500 to-indigo-600"
                       : "bg-gradient-to-br from-emerald-500 to-green-600"
                   }`}
-                >
-                  <Icon size={20} />
-                </div>
-                <h4 className="text-xl font-semibold">{item.type}</h4>
-              </div>
+                    >
+                      <Icon size={20} />
+                    </div>
 
-              <div className="space-y-2 text-sm text-gray-600">
-                <p className="font-semibold text-gray-900">{item.name}</p>
+                    {/* Type Badge */}
+                    <span className="text-xs font-semibold bg-gray-100 text-gray-800 px-2 py-1 ml-2 rounded">
+                      {item.type.toUpperCase()}
+                    </span>
+                  </div>
 
-                <div className="flex gap-2">
-                  <MapPin size={14} className="mt-1 text-gray-400" />
-                  <span>{item.address}</span>
-                </div>
+                  {/* Name + Phone */}
+                  <div className="mt-2 text-sm font-semibold text-gray-900 flex gap-6">
+                    <span className="text-lg font-bold text-gray-700/90">
+                      {item.name
+                        ?.split(" ")
+                        .map(
+                          (word) =>
+                            word.charAt(0).toUpperCase() + word.slice(1),
+                        )
+                        .join(" ")}
+                    </span>
+                  </div>
 
-                <div className="flex gap-2">
-                  <Phone size={14} className="text-gray-400" />
-                  <span>{item.phone}</span>
+                  {/* Contact */}
+                  <div className="flex items-center gap-2 mt-2">
+                    <div className="bg-gray-200 p-2 rounded-lg">
+                      <Phone size={14} className="text-gray-700 text-lg" />
+                    </div>
+                    <span className="text-[15px] font-semibold text-gray-700/90">
+                      {item.phone}
+                    </span>
+                  </div>
+
+                  {/* Address */}
+                  <div className="flex items-center gap-2 mt-2">
+                    <div className="bg-gray-200 p-2 rounded-lg">
+                      <MapPin size={14} className="text-gray-700 text-lg" />
+                    </div>
+                    <span className="text-[15px] font-semibold text-gray-700/90">
+                      {item.address}
+                    </span>
+                  </div>
                 </div>
               </div>
 
               {/* Actions */}
-              <div className="flex gap-4 mt-6">
-                <button
-                  onClick={() => openEdit(item)}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm
-                  bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition cursor-pointer"
-                >
-                  <Pencil size={14} /> Edit
+
+              <div className="relative group">
+                {/* Three dots button */}
+                <button className="p-2 rounded-lg hover:bg-gray-100">
+                  <MdMoreVert size={18} />
                 </button>
 
-                <button
-                  onClick={() => deleteAddress(item._id)}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm
-                  bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition"
+                {/* Dropdown menu */}
+                <div
+                  className="absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-lg shadow-lg
+                    opacity-0 invisible group-hover:visible group-hover:opacity-100
+                    transition-all duration-200 z-10"
                 >
-                  <Trash2 size={14} /> Delete
-                </button>
+                  <button
+                    onClick={() => openEdit(item)}
+                    className="flex items-center gap-3 w-full px-3 py-2 hover:bg-gray-100 transition"
+                  >
+                    <FiEdit size={16} />
+                    <span>Edit</span>
+                  </button>
+
+                  {/* DELETE */}
+                  <button
+                    onClick={() => deleteAddress(item._id)}
+                    className="flex items-center gap-3 w-full px-3 py-2 text-red-600 hover:bg-gray-100 transition"
+                  >
+                    <FiTrash size={16} />
+                    <span>Delete</span>
+                  </button>
+                </div>
               </div>
             </div>
           );

@@ -83,10 +83,9 @@ const Coupons = () => {
   if (!coupons.length) return null;
 
   return (
-    <div className="w-full py-16 flex flex-col items-center relative bg-white overflow-hidden">
+    <div className="w-full flex flex-col items-center relative overflow-hidden">
 
-      <div className="w-full max-w-[1500px] h-[260px] sm:h-[280px] md:h-[300px] overflow-visible relative px-4 sm:px-8">
-
+      <div className="w-full max-w-[1400px] h-[240px] sm:h-[260px] md:h-[280px] overflow-visible relative px-4 sm:px-8">
 
         <div
           className="flex"
@@ -101,68 +100,48 @@ const Coupons = () => {
               className="min-w-full flex justify-center items-center px-4 sm:px-10"
             >
               <div
-                className={`relative w-full h-[230px] sm:h-[250px] md:h-[260px] rounded-[40px]
-
-                bg-gradient-to-r ${coupon.gradient}
-                border border-black/5
-                transition-all duration-500 hover:scale-[1.02]
-                shadow-[0_40px_80px_rgba(0,0,0,0.42)]
-                hover:shadow-[0_60px_120px_rgba(0,0,0,0.18)]`}
+                className={`coupon-editorial relative w-full h-[210px] sm:h-[230px] md:h-[250px] rounded-lg
+                bg-gradient-to-r ${coupon.gradient}`}
               >
-                {/* Soft Shine */}
-                <div className="absolute inset-0 overflow-hidden rounded-[40px]">
-                  <div className="absolute -left-1/2 top-0 w-1/2 h-full 
-                    bg-gradient-to-r from-transparent via-white/60 to-transparent 
-                    skew-x-[-25deg] animate-shine opacity-60" />
-                </div>
 
-                <div className="relative z-10 h-full flex flex-col justify-center items-center text-black px-6 text-center">
+                <div className="relative z-10 h-full flex flex-col justify-center items-center px-6 text-center"
+                     style={{ color: 'var(--noir)' }}>
+
+                  {/* Editorial label */}
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-5 h-[1px]" style={{ background: 'var(--gold)' }}></div>
+                    <span className="outfit text-[9px] sm:text-[10px] tracking-[0.35em] uppercase" style={{ color: 'var(--gold-dark)' }}>
+                      {coupon.subtitle}
+                    </span>
+                    <div className="w-5 h-[1px]" style={{ background: 'var(--gold)' }}></div>
+                  </div>
 
                   {/* TITLE */}
-
-                  <h2 className="cinzel text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-[0.15em] font-light">
+                  <h2 className="playfair text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-[0.1em] font-light">
                     {coupon.title}
                   </h2>
 
-
-                  {/* Responsive Subtitle */}
-                  <h3 className="permanent-marker-regular text-sm sm:text-base md:text-lg tracking-[0.25em] mt-2 text-black/70">
-                    {coupon.subtitle}
-                  </h3>
-
-
                   {/* CODE */}
-                  <div className="mt-5 px-6 sm:px-10 py-2 sm:py-3 rounded-full 
-                    bg-white shadow-lg
-                    border border-black/10
-                    hover:bg-black hover:text-white
-                    transition-all duration-300 
-                    text-xs sm:text-sm md:text-base tracking-widest">
+                  <div className="coupon-code-editorial mt-5">
                     CODE: {coupon.code}
                   </div>
 
                   {/* HIGHLIGHT */}
-                  <div className="mt-4 text-xs sm:text-sm md:text-base tracking-[0.2em] text-black/70">
+                  <div className="mt-3 outfit text-[10px] sm:text-xs md:text-sm tracking-[0.2em]"
+                       style={{ color: 'var(--smoke)' }}>
                     {coupon.highlight}
                   </div>
 
-
-                  {/* Code */}
+                  {/* Code duplicate (preserved from original) */}
                   {coupon.code && (
-                    <div
-                      className="mt-5 px-6 sm:px-10 py-2 sm:py-3 rounded-full 
-                  bg-white shadow-lg
-                  border border-black/10
-                  hover:bg-black hover:text-white
-                  transition-all duration-300 
-                  text-xs sm:text-sm md:text-base tracking-widest"
-                    >
+                    <div className="coupon-code-editorial mt-4">
                       CODE: {coupon.code}
                     </div>
                   )}
 
-                  {/* Highlight */}
-                  <div className="mt-4 text-xs sm:text-sm md:text-base tracking-[0.2em] text-black/70">
+                  {/* Highlight duplicate (preserved from original) */}
+                  <div className="mt-3 outfit text-[10px] sm:text-xs md:text-sm tracking-[0.2em]"
+                       style={{ color: 'var(--smoke)' }}>
                     {coupon.highlight}
                   </div>
                 </div>
@@ -172,9 +151,23 @@ const Coupons = () => {
         </div>
       </div>
 
+      {/* Dot indicators */}
+      <div className="flex justify-center gap-2 mt-6">
+        {coupons.map((_, i) => (
+          <div key={i}
+               className="transition-all duration-300"
+               style={{
+                 width: i === ((current - 1 + coupons.length) % coupons.length) ? '20px' : '5px',
+                 height: '3px',
+                 background: i === ((current - 1 + coupons.length) % coupons.length) ? 'var(--gold)' : 'rgba(0,0,0,0.12)',
+                 borderRadius: '2px',
+               }}
+          />
+        ))}
+      </div>
+
       <style>
         {`
-
           @keyframes shine {
             0% { left: -60%; }
             100% { left: 120%; }
@@ -183,7 +176,6 @@ const Coupons = () => {
             animation: shine 4s linear infinite;
           }
         `}
-
       </style>
     </div>
   );
