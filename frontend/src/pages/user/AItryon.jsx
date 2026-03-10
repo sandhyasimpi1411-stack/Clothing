@@ -172,7 +172,7 @@ const handleTryOn = async () => {
                     key={s}
                     onClick={() => setSize(s)}
                     className={`px-4 py-2 rounded-lg border ${
-                      size === s ? "bg-black text-white" : "bg-white"
+                      size === s ? "bg-[#8b6f47] text-white" : "bg-white"
                     }`}
                   >
                     {s}
@@ -190,7 +190,7 @@ const handleTryOn = async () => {
                     key={f}
                     onClick={() => setFit(f)}
                     className={`px-4 py-2 rounded-lg border ${
-                      fit === f ? "bg-black text-white" : "bg-white"
+                      fit === f ? "bg-[#8b6f47] text-white" : "bg-white"
                     }`}
                   >
                     {f}
@@ -208,7 +208,7 @@ const handleTryOn = async () => {
     handleTryOn();
   }}
   disabled={!file}
-  className="mt-8 w-full bg-black text-white py-3 rounded-xl flex items-center justify-center gap-2"
+  className="mt-8 w-full bg-[#8b6f47] text-white py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-[#7a6140] transition-all duration-300"
 >
   <FaMagic />
   {loading ? "Generating your look..." : "Try Outfit with AI"}

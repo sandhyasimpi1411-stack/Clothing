@@ -150,7 +150,7 @@ const ShippingReturns = () => {
                 onClick={() => setActiveTab("shipping")}
                 className={`flex-1 flex items-center justify-center gap-2 sm:gap-3 px-3 sm:px-4 md:px-6 py-2.5 sm:py-3 md:py-4 rounded-lg sm:rounded-xl font-semibold text-sm sm:text-base md:text-lg transition-all ${
                   activeTab === "shipping"
-                    ? "bg-gray-900 text-white shadow"
+                    ? "bg-[#8b6f47] text-white shadow"
                     : "text-gray-700 hover:bg-gray-50"
                 }`}
               >
@@ -163,7 +163,7 @@ const ShippingReturns = () => {
                 onClick={() => setActiveTab("returns")}
                 className={`flex-1 flex items-center justify-center gap-2 sm:gap-3 px-3 sm:px-4 md:px-6 py-2.5 sm:py-3 md:py-4 rounded-lg sm:rounded-xl font-semibold text-sm sm:text-base md:text-lg transition-all ${
                   activeTab === "returns"
-                    ? "bg-gray-900 text-white shadow"
+                    ? "bg-[#8b6f47] text-white shadow"
                     : "text-gray-700 hover:bg-gray-50"
                 }`}
               >
@@ -362,7 +362,7 @@ const ShippingReturns = () => {
                               {step.icon}
                             </div>
                           </div>
-                          <div className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 bg-gray-900 text-white rounded-full flex items-center justify-center font-bold text-xs sm:text-sm md:text-base shadow">
+                          <div className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 bg-[#8b6f47] text-white rounded-full flex items-center justify-center font-bold text-xs sm:text-sm md:text-base shadow">
                             {step.step}
                           </div>
                         </div>
@@ -696,7 +696,7 @@ const ShippingReturns = () => {
                             {step.icon}
                           </div>
                         </div>
-                        <div className="absolute -top-2 -right-2 sm:-top-3 sm:-right-3 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-gray-900 text-white rounded-full flex items-center justify-center font-bold text-xs sm:text-sm md:text-base shadow">
+                        <div className="absolute -top-2 -right-2 sm:-top-3 sm:-right-3 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-[#8b6f47] text-white rounded-full flex items-center justify-center font-bold text-xs sm:text-sm md:text-base shadow">
                           {step.step}
                         </div>
                       </div>
@@ -1046,7 +1046,7 @@ const ShippingReturns = () => {
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-6 justify-center mb-6 sm:mb-8 md:mb-10 lg:mb-12">
                 <a
                   href="/collections"
-                  className="inline-flex items-center justify-center gap-2 sm:gap-3 px-6 py-3 sm:px-8 sm:py-4 md:px-10 md:py-4 bg-gray-900 text-white font-bold rounded-full hover:bg-black transition-colors shadow-lg hover:shadow-xl text-sm sm:text-base"
+                  className="inline-flex items-center justify-center gap-2 sm:gap-3 px-6 py-3 sm:px-8 sm:py-4 md:px-10 md:py-4 bg-[#8b6f47] text-white font-bold rounded-full hover:bg-[#7a6140] transition-colors shadow-lg hover:shadow-xl text-sm sm:text-base"
                 >
                   <Store className="w-4 h-4 sm:w-5 sm:h-5" />
                   Shop Premium Collection
@@ -1063,7 +1063,7 @@ const ShippingReturns = () => {
 
               <div className="grid grid-cols-3 gap-3 sm:gap-4 md:gap-6 pt-4 sm:pt-6 md:pt-8 border-t border-gray-900/20">
                 <div className="flex flex-col items-center">
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-gray-900 rounded-full flex items-center justify-center mb-1 sm:mb-2">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-[#8b6f47] rounded-full flex items-center justify-center mb-1 sm:mb-2">
                     <Shield className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
                   </div>
                   <span className="font-semibold text-gray-900 text-xs sm:text-sm md:text-base">

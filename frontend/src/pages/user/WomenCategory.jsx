@@ -1,11 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { SlidersHorizontal, ArrowUpDown } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import ProductCard from "../../components/Home/ProductCard";
 import API from "../../api/axios";
 import Navbar from "../../components/Home/Navbar";
 import { useShop } from "../../context/ShopContext";
+
 /* HERO TEXT */
-const HERO_TITLE = "Women’s Collection";
+const HERO_TITLE = "Women's Collection";
 const HERO_SUB =
   "Grace in every detail — timeless ethnic, modern western and elegant styles designed for every woman, every mood.";
 
@@ -15,9 +17,6 @@ export default function WomenCollectionPage() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [priceRange, setPriceRange] = useState([0, 0]);
   const [loading, setLoading] = useState(true);
-
-  /* ❤️ WISHLIST FROM CONTEXT (SAME AS MEN & KIDS) */
-  // const { wishlist, toggleWishlist } = useShop();
 
   /* TYPEWRITER */
    const [typedText, setTypedText] = useState("");
@@ -36,8 +35,6 @@ export default function WomenCollectionPage() {
 
     return () => clearInterval(interval);
   }, []);
-
-  
 
   /* LOAD PRODUCTS */
   useEffect(() => {
@@ -87,133 +84,143 @@ export default function WomenCollectionPage() {
   }, [products, activeCategory, priceRange]);
 
   return (
-    <div className="bg-[#faf7f2] min-h-screen">
+    <div className="bg-[#faf8f5] min-h-screen">
       <Navbar />
 
       {/* HERO */}
-     <section
-        className="relative h-[65vh] sm:h-[75vh] lg:h-[80vh] bg-cover bg-center flex items-center justify-center"
+      <section
+        className="relative h-[65vh] sm:h-[75vh] lg:h-[80vh] bg-cover bg-center flex items-center justify-center overflow-hidden"
         style={{
           backgroundImage:
             "url(https://res.cloudinary.com/dttjgnypq/image/upload/v1770530846/FemailCollection_lqgld1.png)",
         }}
       >
-        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/40 to-black/60" />
 
-        <div className="relative z-10 px-4 sm:px-8 max-w-3xl text-white text-center">
-          <h1
-            className={`text-3xl permanent-marker-regular sm:text-5xl md:text-6xl font-serif mb-4 ${
-              done ? "animate-zoom-once" : ""
-            }`}
-          >
+        <div className="relative z-10 px-6 sm:px-8 max-w-3xl text-white text-center">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-white/60 mb-4">
+            Curated for Her
+          </p>
+          <h1 className="cinzel text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light tracking-wide mb-4">
             {HERO_TITLE}
           </h1>
 
-
-          <p className=" lg:text-3xl mt-3 text-3xl sm:text-xs font-dancing text-gray-200">
+          <p className="text-[14px] sm:text-[16px] font-light text-white/60 tracking-wide max-w-xl mx-auto leading-relaxed">
             {typedText}
+            <span
+              className="inline-block w-[2px] h-[0.7em] ml-1 align-middle bg-white/60"
+              style={{ animation: "gentlePulse 1s ease-in-out infinite" }}
+            />
           </p>
         </div>
       </section>
 
       {/* CONTENT */}
-      <section className="max-w-7xl mx-auto px-6 py-14 grid grid-cols-1 md:grid-cols-4 gap-10">
-
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* FILTERS */}
-       <aside className="md:col-span-1">
-  <div
-    className="
-      bg-white rounded-2xl shadow
-      p-4 sm:p-6
-      md:sticky md:top-24
-      space-y-6
-    "
-  >
-    {/* HEADER */}
-    <h3 className="flex items-center gap-2 permanent-marker-regular text-xl tracking-wide">
-      <SlidersHorizontal size={18} />
-      Filters
-    </h3>
+        <aside className="md:col-span-1">
+          <div className="bg-white rounded-xl p-5 md:sticky md:top-24 space-y-6 border border-gray-100">
+            {/* HEADER */}
+            <div className="flex items-center gap-2.5 pb-4 border-b border-gray-100">
+              <SlidersHorizontal size={16} className="text-gray-400" />
+              <h3 className="text-[12px] font-medium tracking-[0.15em] uppercase text-gray-900">
+                Filters
+              </h3>
+            </div>
 
-    {/* ================= CATEGORY ================= */}
-    <div>
-      <h4 className="mb-3 cinzel font-semibold tracking-wide">
-        Category
-      </h4>
+            {/* ================= CATEGORY ================= */}
+            <div>
+              <h4 className="mb-3 text-[11px] font-medium tracking-[0.15em] uppercase text-gray-500">
+                Category
+              </h4>
 
-      <div
-        className="
-          flex md:flex-col gap-2
-          overflow-x-auto md:overflow-visible
-          pb-2 md:pb-0
-        "
-      >
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setActiveCategory(cat)}
-            className={`
-              cinzel whitespace-nowrap
-              px-4 py-2 rounded-lg
-              text-sm sm:text-base tracking-wide
-              transition
-              ${
-                activeCategory === cat
-                  ? "bg-black text-white"
-                  : "bg-gray-100 hover:bg-gray-200"
-              }
-            `}
-          >
-            {cat}
-          </button>
-        ))}
-      </div>
-    </div>
+              <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-visible pb-2 md:pb-0">
+                {categories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveCategory(cat)}
+                    className={`whitespace-nowrap px-4 py-2.5 rounded-lg text-[13px] tracking-wide
+                      transition-all duration-300
+                      ${
+                        activeCategory === cat
+                          ? "bg-[#f5f0eb] text-[#8b6f47] font-medium"
+                          : "bg-gray-50 text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                      }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            </div>
 
-    {/* ================= PRICE ================= */}
-    <div>
-      <h4 className="mb-3 cinzel font-semibold tracking-wide flex items-center gap-2">
-        <ArrowUpDown size={16} />
-        Price Range
-      </h4>
+            {/* ================= PRICE ================= */}
+            <div>
+              <h4 className="mb-3 text-[11px] font-medium tracking-[0.15em] uppercase text-gray-500 flex items-center gap-2">
+                <ArrowUpDown size={14} />
+                Price Range
+              </h4>
 
-      <div className="flex justify-between text-sm mb-2 cinzel">
-        <span>₹0</span>
-        <span>₹{priceRange[1]}</span>
-      </div>
+              <div className="flex justify-between text-[12px] mb-2 text-gray-500">
+                <span>₹0</span>
+                <span className="font-medium text-gray-900">₹{priceRange[1].toLocaleString()}</span>
+              </div>
 
-      <input
-        type="range"
-        min="0"
-        max={Math.max(
-          ...products.map((p) => p.discountPrice || p.price || 0)
-        )}
-        step="100"
-        value={priceRange[1]}
-        onChange={(e) =>
-          setPriceRange([0, Number(e.target.value)])
-        }
-        className="w-full accent-black"
-      />
-    </div>
-  </div>
-</aside>
-
+              <input
+                type="range"
+                min="0"
+                max={Math.max(
+                  ...products.map((p) => p.discountPrice || p.price || 0)
+                )}
+                step="100"
+                value={priceRange[1]}
+                onChange={(e) =>
+                  setPriceRange([0, Number(e.target.value)])
+                }
+                className="w-full accent-black"
+              />
+            </div>
+          </div>
+        </aside>
 
         {/* PRODUCTS GRID */}
-        <div className="md:col-span-3 grid grid-cols-2 sm:grid-cols-3 gap-6">
-          {loading && <p>Loading...</p>}
+        <div className="md:col-span-3">
+          {/* Results count */}
+          <div className="flex items-center justify-between mb-6">
+            <p className="text-[13px] text-gray-400 tracking-wide">
+              {filteredProducts.length} {filteredProducts.length === 1 ? "product" : "products"}
+            </p>
+          </div>
 
-          {filteredProducts.map(product => (
-            <ProductCard
-              key={product._id}
-              product={product}
-              />
-          ))}
+          {loading && (
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-5">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="space-y-3">
+                  <div className="skeleton-luxury aspect-[3/4]" />
+                  <div className="skeleton-luxury h-4 w-3/4" />
+                  <div className="skeleton-luxury h-4 w-1/2" />
+                </div>
+              ))}
+            </div>
+          )}
+
+          <motion.div layout className="grid grid-cols-2 sm:grid-cols-3 gap-5 sm:gap-6">
+            <AnimatePresence>
+              {filteredProducts.map(product => (
+                <motion.div
+                  key={product._id}
+                  layout
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <ProductCard product={product} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
         </div>
       </section>
-      
-
     </div>
   );
 }

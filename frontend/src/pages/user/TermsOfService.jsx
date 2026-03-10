@@ -118,7 +118,7 @@ const TermsOfService = () => {
             transition={{ delay: 0.5, duration: 1 }}
             className="w-full"
           >
-            <div className="inline-flex items-center gap-4 px-8 py-4 bg-gray-900 text-white rounded-full text-lg font-semibold shadow-2xl">
+            <div className="inline-flex items-center gap-4 px-8 py-4 bg-[#8b6f47] text-white rounded-full text-lg font-semibold shadow-2xl">
               <Gavel className="w-6 h-6" />
               Effective Date: February 2026
             </div>
@@ -1380,7 +1380,7 @@ const TermsOfService = () => {
         >
           <a
             href="#top"
-            className="inline-flex items-center gap-3 px-8 py-4 bg-gray-900 text-white font-bold text-lg rounded-full hover:shadow-2xl transition-all hover:scale-105 hover:bg-black"
+            className="inline-flex items-center gap-3 px-8 py-4 bg-[#8b6f47] text-white font-bold text-lg rounded-full hover:shadow-2xl transition-all hover:scale-105 hover:bg-[#7a6140]"
           >
             <span>Back to Top</span>
             <ChevronRight className="w-6 h-6 -rotate-90" />

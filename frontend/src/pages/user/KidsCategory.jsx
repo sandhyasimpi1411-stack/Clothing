@@ -1,13 +1,14 @@
 import React, { useState, useMemo, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import ProductCard from "../../components/Home/ProductCard";
 import API from "../../api/axios";
 import Navbar from "../../components/Home/Navbar";
 import { useShop } from "../../context/ShopContext";
-/* HERO TEXT */
-  const TITLE_TEXT = "Little Styles. Big Smiles.";
-  const SUB_TEXT =
-    "Playful, comfy & premium outfits made for every little moment";
 
+/* HERO TEXT */
+const TITLE_TEXT = "Little Styles. Big Smiles.";
+const SUB_TEXT =
+  "Playful, comfy & premium outfits made for every little moment";
 
 export default function KidsCollection() {
   const [products, setProducts] = useState([]);
@@ -20,9 +21,6 @@ export default function KidsCollection() {
   const [maxPrice, setMaxPrice] = useState(0);
 
   const [loading, setLoading] = useState(true);
-
-  /* ❤️ WISHLIST FROM CONTEXT (SAME AS MEN) */
-  // const { wishlist, toggleWishlist } = useShop();
 
   /* TYPEWRITER */
   const TYPING_SPEED = 90;
@@ -118,46 +116,55 @@ export default function KidsCollection() {
   };
 
   return (
-    <div className="bg-[#faf7f2] min-h-screen">
+    <div className="bg-[#faf8f5] min-h-screen">
       <Navbar />
 
       {/* HERO */}
-       <div
-        className="relative h-[80vh] bg-cover bg-center flex items-center justify-center"
+      <section
+        className="relative h-[70vh] sm:h-[75vh] lg:h-[80vh] bg-cover bg-center flex items-center justify-center overflow-hidden"
         style={{
           backgroundImage:
             "url(https://res.cloudinary.com/dttjgnypq/image/upload/v1770397575/Kid_s_kuv61w.jpg)",
         }}
       >
-        {/* dark overlay similar to women section for clarity */}
-        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/40 to-black/60" />
 
-        <div className="relative z-10 text-center text-white px-4">
-          <h1 className=" permanent-marker-regular text-4xl md:text-6xl font-bold">
+        <div className="relative z-10 text-center text-white px-6 max-w-3xl">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-white/60 mb-4">
+            Curated for Little Ones
+          </p>
+          <h1 className="cinzel text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light tracking-wide">
             {typedText}
+            <span
+              className="inline-block w-[2px] h-[0.7em] ml-1 align-middle bg-white/60"
+              style={{ animation: "gentlePulse 1s ease-in-out infinite" }}
+            />
           </h1>
 
           {done && (
-            <p
-              className="cinzel mt-2 text-lg sm:text- md:text-xl lg:text-xl tracking-wide text-gray-200"
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="mt-4 text-[14px] sm:text-[16px] font-light text-white/60 tracking-wide"
             >
               {SUB_TEXT}
-            </p>
+            </motion.p>
           )}
         </div>
-      </div>
+      </section>
 
       {/* ================= CATEGORY SHOWCASE ================= */}
-      <section className="max-w-7xl mx-auto px-6 py-12">
-        <div className="text-center mb-10">
-          <h2 className="permanent-marker-regular text-4xl md:text-5xl font-bold text-gray-800 mb-2">
+      <section className="max-w-7xl mx-auto px-6 py-16">
+        <div className="text-center mb-12">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-gray-400 mb-3">Explore</p>
+          <h2 className="cinzel text-3xl md:text-4xl font-light text-gray-900 mb-3">
             Shop by Category
           </h2>
-          <p className="text-gray-600 text-lg">Find the perfect outfit for your little one</p>
-          <div className="h-1 w-20 bg-gray-800 mx-auto mt-4 rounded-full" />
+          <div className="w-12 h-[1px] bg-[#c4a265] mx-auto" />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {[
             {
               name: 'All Kids',
@@ -175,197 +182,179 @@ export default function KidsCollection() {
               description: 'Cool outfits for young boys',
             },
           ].map((cat, idx) => (
-            <div
+            <motion.div
               key={idx}
-              className="group relative overflow-hidden rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 hover:scale-105"
-              style={{ animationDelay: `${idx * 0.1}s` }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.15, duration: 0.6 }}
+              className="group relative overflow-hidden rounded-xl cursor-pointer"
             >
               {/* Background Image */}
-              <div className="relative h-64 overflow-hidden">
+              <div className="relative h-72 overflow-hidden">
                 <img
                   src={cat.image}
                   alt={cat.name}
-                  className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110"
+                  className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
                   loading="lazy"
                 />
 
-                {/* Semi-transparent overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                {/* Gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
                 {/* Content Overlay */}
                 <div className="absolute inset-0 flex flex-col justify-end p-6 text-white">
-                  <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                    <h3 className="text-2xl font-bold mb-2 drop-shadow-lg">{cat.name}</h3>
-                    <p className="text-sm opacity-90 mb-4 drop-shadow-md">{cat.description}</p>
+                  <div className="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                    <h3 className="cinzel text-xl font-light mb-1.5 tracking-wide">{cat.name}</h3>
+                    <p className="text-[13px] text-white/60 mb-4 font-light">{cat.description}</p>
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         handleExplore(cat.name);
                       }}
-                      className="bg-white/90 backdrop-blur-sm border border-white/20 text-gray-800 font-semibold py-3 px-8 rounded-full hover:bg-white hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+                      className="text-[11px] tracking-[0.15em] uppercase text-white border border-white/40 px-6 py-2.5
+                        hover:bg-white hover:text-black transition-all duration-300"
                     >
-                      Explore →
+                      Explore
                     </button>
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </section>
 
       {/* CONTENT */}
-      <div className="max-w-7xl mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-4 gap-10">
-
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 grid grid-cols-1 lg:grid-cols-4 gap-8">
         {/* FILTERS */}
-      <aside className="lg:col-span-1">
-  <div
-    className="
-      bg-white rounded-2xl shadow
-      p-4 sm:p-6
-      lg:sticky lg:top-24
-      space-y-6
-    "
-  >
-    <h3 className="permanent-marker-regular text-xl tracking-wide">
-      Filters
-    </h3>
+        <aside className="lg:col-span-1">
+          <div className="bg-white rounded-xl p-5 lg:sticky lg:top-24 space-y-6 border border-gray-100">
+            <div className="flex items-center gap-2.5 pb-4 border-b border-gray-100">
+              <h3 className="text-[12px] font-medium tracking-[0.15em] uppercase text-gray-900">
+                Filters
+              </h3>
+            </div>
 
             {/* ================= GENDER ================= */}
             <div>
-              <h4 className="mb-3 cinzel font-semibold tracking-wide">
+              <h4 className="mb-3 text-[11px] font-medium tracking-[0.15em] uppercase text-gray-500">
                 Gender
               </h4>
 
-      <div
-        className="
-          flex lg:flex-col gap-2
-          overflow-x-auto lg:overflow-visible
-          pb-2 lg:pb-0
-        "
-      >
-        {["all", "boys", "girls"].map((g) => (
-          <button
-            key={g}
-            onClick={() => {
-              setGender(g);
-              setCategory("all");
-            }}
-            className={`cinzel
-              whitespace-nowrap px-4 py-2 rounded-lg
-              text-sm sm:text-base tracking-wide
-              transition
-              ${
-                gender === g
-                  ? "bg-black text-white"
-                  : "bg-gray-100 hover:bg-gray-200"
-              }
-            `}
-          >
-            {g.toUpperCase()}
-          </button>
-        ))}
-      </div>
-    </div>
+              <div className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0">
+                {["all", "boys", "girls"].map((g) => (
+                  <button
+                    key={g}
+                    onClick={() => {
+                      setGender(g);
+                      setCategory("all");
+                    }}
+                    className={`whitespace-nowrap px-4 py-2.5 rounded-lg text-[13px] tracking-wide
+                      transition-all duration-300
+                      ${
+                        gender === g
+                          ? "bg-[#f5f0eb] text-[#8b6f47] font-medium"
+                          : "bg-gray-50 text-gray-600 hover:bg-gray-100"
+                      }`}
+                  >
+                    {g.toUpperCase()}
+                  </button>
+                ))}
+              </div>
+            </div>
 
-    {/* ================= CATEGORY ================= */}
-    {gender !== "all" && categories.length > 0 && (
-      <div>
-        <h4 className="mb-3 cinzel font-semibold tracking-wide">Category</h4>
+            {/* ================= CATEGORY ================= */}
+            {gender !== "all" && categories.length > 0 && (
+              <div>
+                <h4 className="mb-3 text-[11px] font-medium tracking-[0.15em] uppercase text-gray-500">Category</h4>
 
-        <div
-          className="
-            flex lg:flex-col gap-2
-            overflow-x-auto lg:overflow-visible
-            pb-2 lg:pb-0
-          "
-        >
-          {categories.map((c) => (
-            <button
-              key={c}
-              onClick={() => setCategory(c)}
-              className={`cinzel
-                whitespace-nowrap px-4 py-2 rounded-lg
-                text-sm sm:text-base tracking-wide
-                transition
-                ${
-                  category === c
-                    ? "bg-black text-white"
-                    : "bg-gray-100 hover:bg-gray-200"
-                }
-              `}
-            >
-              {c.toUpperCase()}
-            </button>
-          ))}
-        </div>
-      </div>
-    )}
+                <div className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0">
+                  {categories.map((c) => (
+                    <button
+                      key={c}
+                      onClick={() => setCategory(c)}
+                      className={`whitespace-nowrap px-4 py-2.5 rounded-lg text-[13px] tracking-wide
+                        transition-all duration-300
+                        ${
+                          category === c
+                            ? "bg-[#f5f0eb] text-[#8b6f47] font-medium"
+                            : "bg-gray-50 text-gray-600 hover:bg-gray-100"
+                        }`}
+                    >
+                      {c.toUpperCase()}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
-    {/* ================= PRICE ================= */}
-    <div>
-      <h4 className="mb-3 cinzel font-semibold tracking-wide flex items-center gap-2">
-        Price Range
-      </h4>
+            {/* ================= PRICE ================= */}
+            <div>
+              <h4 className="mb-3 text-[11px] font-medium tracking-[0.15em] uppercase text-gray-500">
+                Price Range
+              </h4>
 
-      <div className="flex justify-between text-sm mb-2 cinzel">
-        <span>₹0</span>
-        <span>₹{sliderValue}</span>
-      </div>
+              <div className="flex justify-between text-[12px] mb-2 text-gray-500">
+                <span>₹0</span>
+                <span className="font-medium text-gray-900">₹{sliderValue.toLocaleString()}</span>
+              </div>
 
-      <input
-        type="range"
-        min="0"
-        max={maxPrice}
-        step="100"
-        value={sliderValue}
-        onChange={(e) => {
-          const val = Number(e.target.value);
-          setSliderValue(val);
-          setPriceRange([0, val]);
-        }}
-        className="w-full accent-black"
-      />
-    </div>
-  </div>
-</aside>
+              <input
+                type="range"
+                min="0"
+                max={maxPrice}
+                step="100"
+                value={sliderValue}
+                onChange={(e) => {
+                  const val = Number(e.target.value);
+                  setSliderValue(val);
+                  setPriceRange([0, val]);
+                }}
+                className="w-full accent-black"
+              />
+            </div>
+          </div>
+        </aside>
 
         {/* PRODUCTS */}
-        <main className="lg:col-span-3 grid grid-cols-2 sm:grid-cols-3 gap-6 pb-10">
-          {loading && <p className="text-center w-full">Loading...</p>}
+        <main className="lg:col-span-3">
+          <div className="flex items-center justify-between mb-6">
+            <p className="text-[13px] text-gray-400 tracking-wide">
+              {filteredProducts.length} {filteredProducts.length === 1 ? "product" : "products"}
+            </p>
+          </div>
 
-          {filteredProducts.map(product => (
-            <ProductCard
-              key={product._id}
-              product={product}
-             />
-          ))}
+          {loading && (
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-5">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="space-y-3">
+                  <div className="skeleton-luxury aspect-[3/4]" />
+                  <div className="skeleton-luxury h-4 w-3/4" />
+                  <div className="skeleton-luxury h-4 w-1/2" />
+                </div>
+              ))}
+            </div>
+          )}
+
+          <motion.div layout className="grid grid-cols-2 sm:grid-cols-3 gap-5 sm:gap-6 pb-10">
+            <AnimatePresence>
+              {filteredProducts.map(product => (
+                <motion.div
+                  key={product._id}
+                  layout
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <ProductCard product={product} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
         </main>
       </div>
-
-      {/* Animations */}
-      <style>{`
-        @keyframes zoomOnce {
-          0% { transform: scale(0.96); }
-          60% { transform: scale(1.05); }
-          100% { transform: scale(1); }
-        }
-
-        .animate-zoomOnce {
-          animation: zoomOnce 1.2s ease forwards;
-        }
-
-        @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(12px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-
-        .animate-fadeUp {
-          animation: fadeUp 0.8s ease forwards;
-        }
-      `}</style>
-      
-
     </div>
   );
 }

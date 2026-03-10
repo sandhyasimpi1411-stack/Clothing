@@ -839,7 +839,7 @@ const CheckoutPage = () => {
 
   // --- MAIN LAYOUT ---
   return (
-    <div className="min-h-screen bg-gray-50 font-sans">
+    <div className="min-h-screen bg-[#faf8f5] font-sans">
       {/* <Navbar /> */}
 
       <main className="py-10 px-4">
@@ -905,7 +905,7 @@ const CheckoutPage = () => {
                         <input
                           type="text"
                           name="fullName"
-                          className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-black focus:border-transparent outline-none transition"
+                          className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#c4a265] focus:border-transparent outline-none transition"
                           placeholder="Enter Full Name"
                           onChange={handleInputChange}
                           value={shippingInfo.fullName}
@@ -918,7 +918,7 @@ const CheckoutPage = () => {
                         <input
                           type="email"
                           name="email"
-                          className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-black outline-none"
+                          className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#c4a265] outline-none"
                           placeholder="Enter your Email"
                           onChange={handleInputChange}
                           value={shippingInfo.email}
@@ -932,7 +932,7 @@ const CheckoutPage = () => {
                           className={`flex items-center rounded-lg border transition
                             ${shippingInfo.phone.length === 10
                               ? "border-green-500"
-                              : "border-gray-300 focus-within:border-black"
+                              : "border-gray-300 focus-within:border-[#c4a265]"
                             }`}
                         >
                           <div className="flex items-center gap-1 px-3 bg-gray-100 text-sm font-medium text-gray-700 rounded-l-lg border-r">
@@ -971,7 +971,7 @@ const CheckoutPage = () => {
                         <input
                           type="text"
                           name="address"
-                          className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-black outline-none"
+                          className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#c4a265] outline-none"
                           placeholder="Enter Full Address"
                           onChange={handleInputChange}
                           value={shippingInfo.address}
@@ -1012,7 +1012,7 @@ const CheckoutPage = () => {
                           onChange={handleInputChange}
                           maxLength={6}
                           placeholder="Enter 6-digit pincode"
-                          className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-black outline-none placeholder-gray-400"
+                          className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#c4a265] outline-none placeholder-gray-400"
                         />
                       </div>
                     </form>
@@ -1024,7 +1024,7 @@ const CheckoutPage = () => {
                       }}
                       className={`mt-6 px-6 py-3 rounded-lg font-semibold transition
                         ${isAddressValid()
-                          ? "bg-black text-white hover:bg-green-800"
+                          ? "bg-[#8b6f47] text-white hover:bg-[#7a6140]"
                           : "bg-gray-300 text-gray-500 cursor-not-allowed"
                         }
                       `}
@@ -1295,7 +1295,7 @@ const CheckoutPage = () => {
                         />
                         <button
                           onClick={handleApplyPromo}
-                          className="px-6 py-3 bg-gray-900 text-white font-medium rounded-md hover:bg-gray-800 transition-colors"
+                          className="px-6 py-3 bg-[#8b6f47] text-white font-medium rounded-md hover:bg-[#7a6140] transition-colors"
                         >
                           Apply
                         </button>

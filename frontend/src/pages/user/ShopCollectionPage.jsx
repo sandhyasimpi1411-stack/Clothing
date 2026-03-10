@@ -104,7 +104,7 @@ const SilkRouteCollection = () => {
   }, [search, category, fabric, sortBy]);
 
   return (
-    <div className="bg-[#ffffffe7] min-h-screen">
+    <div className="bg-[#faf8f5] min-h-screen">
       {/*Shop Collection Navbar */}
       <Navbar />
 
@@ -117,7 +117,7 @@ const SilkRouteCollection = () => {
 
         <div className="flex flex-col lg:flex-row lg:justify-between gap-6">
           <div>
-            <h1 className="text-4xl font-serif mb-3">The Silk Route</h1>
+            <h1 className="cinzel text-4xl font-light mb-3">The Silk Route</h1>
             <p className="max-w-xl text-gray-600">
               A curated collection of hand-woven silks and organic textiles
               inspired by the heritage of the Indian subcontinent.
@@ -180,7 +180,7 @@ const SilkRouteCollection = () => {
                 hover:translate-x-1 active:scale-[0.97]
                 ${
                   category === c
-                    ? "bg-black text-white font-semibold shadow-lg shadow-black/20"
+                    ? "bg-[#f5f0eb] text-[#8b6f47] font-semibold shadow-sm"
                     : "text-gray-600 hover:bg-gray-100"
                 }`}
               >
@@ -196,7 +196,7 @@ const SilkRouteCollection = () => {
                 key={f}
                 onClick={() => setFabric(f)}
                 className={`block w-full text-left text-sm mb-2 ${
-                  fabric === f ? "font-semibold text-black" : "text-gray-600"
+                  fabric === f ? "font-semibold text-[#8b6f47]" : "text-gray-600"
                 }`}
               >
                 {f}
@@ -250,7 +250,7 @@ const SilkRouteCollection = () => {
                     {product.fabric}
                   </p>
 
-                  <h3 className="text-sm font-medium text-gray-900 group-hover:text-blue-800 transition">
+                  <h3 className="text-sm font-medium text-gray-900 group-hover:text-[#8b6f47] transition">
                     {product.title}
                   </h3>
 

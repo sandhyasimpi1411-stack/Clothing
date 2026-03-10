@@ -174,7 +174,7 @@ const FAQPage = () => {
             <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400" />
             <button
               type="submit"
-              className="absolute right-3 top-1/2 -translate-y-1/2 bg-gray-900 text-white px-6 py-2 rounded-xl hover:bg-black transition-colors"
+              className="absolute right-3 top-1/2 -translate-y-1/2 bg-[#8b6f47] text-white px-6 py-2 rounded-xl hover:bg-[#7a6140] transition-colors"
             >
               Search
             </button>
@@ -250,7 +250,7 @@ const FAQPage = () => {
 
       {/* Direct Contact CTA */}
       <section className="max-w-4xl mx-auto px-4 mt-24">
-        <div className="bg-gray-900 rounded-[2.5rem] p-10 text-center text-white relative overflow-hidden">
+        <div className="bg-[#f5f0eb] rounded-[2.5rem] p-10 text-center text-gray-800 relative overflow-hidden border border-[#e8e2d9]">
           <div className="absolute top-0 right-0 w-32 h-32 bg-[#B89A67] blur-[100px] opacity-20"></div>
           <h3 className="text-3xl font-bold mb-4">Didn't find your answer?</h3>
           <p className="text-gray-400 mb-8 max-w-md mx-auto">

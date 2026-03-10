@@ -424,7 +424,7 @@ const OurPhilosophy = () => {
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
             <a
               href="/collections"
-              className="inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-gray-800 text-white font-medium rounded-full hover:bg-gray-900 transition-colors shadow-lg hover:shadow-xl text-sm sm:text-base group"
+              className="inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-[#8b6f47] text-white font-medium rounded-full hover:bg-[#7a6140] transition-colors shadow-lg hover:shadow-xl text-sm sm:text-base group"
             >
               Explore Collections
               <span className="group-hover:translate-x-1 transition-transform">

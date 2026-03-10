@@ -309,19 +309,19 @@ const Landing = () => {
       {/* ════════════════════════════════════════════════════════════
            PREMIUM / WARDROBE PICKS — CAROUSEL
            ════════════════════════════════════════════════════════════ */}
-      <div className="section-editorial section-noir">
+      <div className="section-editorial section-ivory">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10 sm:mb-14">
             <div>
               <div className="editorial-label sr visible">
                 <span>Curated Selection</span>
               </div>
-              <p className="editorial-title text-3xl sm:text-5xl md:text-6xl text-white sr visible sr-d1">
+              <p className="editorial-title text-3xl sm:text-5xl md:text-6xl sr visible sr-d1" style={{ color: "var(--noir)" }}>
                 <b>PREMIUM</b>
               </p>
             </div>
             <button
-              className="outfit text-sm sm:text-base tracking-[0.15em] uppercase pb-1 text-white/60 hover:text-white transition-colors duration-300 sr visible sr-d2"
+              className="outfit text-sm sm:text-base tracking-[0.15em] uppercase pb-1 text-gray-500 hover:text-gray-900 transition-colors duration-300 sr visible sr-d2"
               style={{ borderBottom: "1px solid var(--gold)" }}
             >
               Wardrobe Picks
@@ -383,7 +383,7 @@ const Landing = () => {
 
                   {/* Badge */}
                   {item.badge && (
-                    <span className="absolute top-3 left-3 bg-black text-white text-xs px-3 py-1 rounded-full">
+                    <span className="absolute top-3 left-3 bg-[#8b6f47] text-white text-xs px-3 py-1 rounded-full">
                       {item.badge}
                     </span>
                   )}

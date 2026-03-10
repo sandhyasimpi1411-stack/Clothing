@@ -107,7 +107,7 @@ const AITryOn = () => {
                     onClick={() => setSize(s)}
                     className={`px-4 py-2 rounded-lg border ${
                       size === s
-                        ? "bg-black text-white"
+                        ? "bg-[#8b6f47] text-white"
                         : "bg-white cursor-pointer"
                     }`}
                   >
@@ -127,7 +127,7 @@ const AITryOn = () => {
                     onClick={() => setFit(f)}
                     className={`px-4 py-2 rounded-lg border ${
                       fit === f
-                        ? "bg-black text-white"
+                        ? "bg-[#8b6f47] text-white"
                         : "bg-white cursor-pointer"
                     }`}
                   >
@@ -141,7 +141,7 @@ const AITryOn = () => {
             <button
               onClick={handleTryOn}
               disabled={!originalImage}
-              className="mt-8 w-full bg-black text-white py-3 rounded-xl flex items-center justify-center gap-2 cursor-pointer"
+              className="mt-8 w-full bg-[#8b6f47] text-white py-3 rounded-xl flex items-center justify-center gap-2 cursor-pointer hover:bg-[#7a6140] transition-all duration-300"
             >
               <FaMagic />
               {loading ? "Generating your look..." : "Try Your Selected Outfit"}

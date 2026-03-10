@@ -76,14 +76,14 @@ useEffect(() => {
   if (!products.length) return null;
 
   return (
-    <div className="carousel-cinematic w-full relative py-4">
+    <div className="w-full relative py-4">
       <div className="w-full mx-auto px-4 sm:px-6 overflow-hidden relative">
 
         {/* LEFT NAV */}
         <button
           onClick={() => index > 0 && setIndex(index - 1)}
-          className="carousel-btn absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 z-10
-          p-2.5 sm:p-3.5 rounded-full"
+          className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 z-10
+          p-2.5 sm:p-3.5 rounded-full bg-white shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300 text-gray-700 hover:text-[#8b6f47]"
         >
           <ChevronLeft size={20} />
         </button>
@@ -91,8 +91,8 @@ useEffect(() => {
         {/* RIGHT NAV */}
         <button
           onClick={() => setIndex(index + 1)}
-          className="carousel-btn absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 z-10
-          p-2.5 sm:p-3.5 rounded-full"
+          className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 z-10
+          p-2.5 sm:p-3.5 rounded-full bg-white shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300 text-gray-700 hover:text-[#8b6f47]"
         >
           <ChevronRight size={20} />
         </button>
@@ -112,28 +112,37 @@ useEffect(() => {
               className="w-full sm:w-1/2 lg:w-1/3 flex-shrink-0 px-2 sm:px-3"
             >
               <div
-                className="carousel-slide-card relative aspect-9/10 overflow-hidden group"
+                className="relative overflow-hidden rounded-2xl bg-white shadow-md hover:shadow-xl hover:scale-[1.03] transition-all duration-300 cursor-pointer group"
                 onClick={() => navigate(`/product/${item._id}`)}
               >
-                <img
-                  src={item.colors?.[0]?.images?.[0]}
-                  alt={item.name}
-                  className="w-full h-full object-cover"
-                />
+                <div className="relative aspect-[3/4] overflow-hidden">
+                  <img
+                    src={item.colors?.[0]?.images?.[0]}
+                    alt={item.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  {/* Subtle bottom gradient for text readability */}
+                  <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
+                </div>
 
-                {/* Cinematic overlay */}
-                <div className="absolute inset-0 carousel-slide-overlay flex flex-col justify-end p-4 sm:p-6 text-white">
+                {/* Card details */}
+                <div className="p-4 sm:p-5 space-y-1.5">
                   {/* Gold accent line */}
-                  <div className="w-8 h-[2px] mb-3" style={{ background: 'var(--gold)' }}></div>
-                  <h2 className="playfair text-lg sm:text-2xl font-semibold leading-tight mb-1"
-                      style={{ textShadow: '0 2px 10px rgba(0,0,0,0.4)' }}>
-                    {item.carouselTitle}
+                  <div className="w-8 h-[2px] bg-[#c4a265] mb-2"></div>
+                  <h2 className="font-semibold text-gray-900 text-sm sm:text-base leading-tight line-clamp-2">
+                    {item.carouselTitle || item.name}
                   </h2>
-                  <p className="outfit text-[11px] sm:text-sm mt-0.5 text-white/65 tracking-wide">{item.carouselSubtitle}</p>
-                  <p className="outfit text-base sm:text-lg mt-1.5 font-semibold tracking-wide">
-                    <b>MRP: </b>{item.carouselPriceText}
+                  <p className="text-sm text-gray-500 tracking-wide">
+                    {item.carouselSubtitle || item.category?.name || "Collection"}
                   </p>
-                  <p className="outfit text-[10px] sm:text-xs text-white/50 mt-0.5 tracking-wider uppercase"><span><b>Size: </b></span>{item.size}</p>
+                  <p className="font-bold text-[#8b6f47] text-base sm:text-lg tracking-wide">
+                    {item.carouselPriceText || `₹${item.discountPrice ?? item.price ?? 0}`}
+                  </p>
+                  {item.size && (
+                    <p className="text-xs text-gray-400 tracking-wider uppercase">
+                      <span className="font-medium">Size:</span> {item.size}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -145,11 +154,11 @@ useEffect(() => {
       <div className="flex justify-center gap-2 mt-6">
         {products.map((_, i) => (
           <div key={i}
-               className="transition-all duration-300"
+               className="transition-all duration-300 rounded-full"
                style={{
                  width: i === (index % products.length) ? '24px' : '6px',
-                 height: '3px',
-                 background: i === (index % products.length) ? 'var(--gold)' : 'rgba(255,255,255,0.2)',
+                 height: '4px',
+                 background: i === (index % products.length) ? '#8b6f47' : 'rgba(139,111,71,0.2)',
                  borderRadius: '2px',
                }}
           />

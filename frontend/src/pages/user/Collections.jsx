@@ -182,7 +182,7 @@ const [viewMode, setViewMode] = useState("grid");
               onClick={() => setViewMode("grid")}
               className={`p-2 rounded ${
                 viewMode === "grid"
-                  ? "bg-black text-white"
+                  ? "bg-[#f5f0eb] text-[#8b6f47] font-medium"
                   : "text-gray-600"
               }`}
             >
@@ -192,7 +192,7 @@ const [viewMode, setViewMode] = useState("grid");
               onClick={() => setViewMode("list")}
               className={`p-2 rounded ${
                 viewMode === "list"
-                  ? "bg-black text-white"
+                  ? "bg-[#f5f0eb] text-[#8b6f47] font-medium"
                   : "text-gray-600"
               }`}
             >
@@ -273,7 +273,7 @@ const [viewMode, setViewMode] = useState("grid");
         px-4 py-2 rounded-lg text-sm sm:text-base
         ${
           selectedCategory === c
-            ? "bg-black text-white"
+            ? "bg-[#f5f0eb] text-[#8b6f47] font-medium"
             : "bg-gray-100 hover:bg-gray-200"
         }`}
     >
@@ -311,7 +311,7 @@ const [viewMode, setViewMode] = useState("grid");
                   setPriceRange([0, 50000]);
                   setSearchTerm("");
                 }}
-                className="w-full mt-6 border py-2 rounded hover:bg-black hover:text-white"
+                className="w-full mt-6 border py-2 rounded hover:bg-[#8b6f47] hover:text-white transition-all duration-300"
               >
                 Clear Filters
               </button>

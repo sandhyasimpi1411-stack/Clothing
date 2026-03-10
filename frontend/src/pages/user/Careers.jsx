@@ -371,7 +371,7 @@ const Careers = () => {
                 <button
                   key={dept.id}
                   onClick={() => setSelectedDepartment(dept.id)}
-                  className={`flex items-center gap-2 px-5 py-3 rounded-xl font-semibold transition-all ${selectedDepartment === dept.id ? "bg-gray-900 text-white" : dept.color} hover:shadow-lg`}
+                  className={`flex items-center gap-2 px-5 py-3 rounded-xl font-semibold transition-all ${selectedDepartment === dept.id ? "bg-[#8b6f47] text-white" : dept.color} hover:shadow-lg`}
                 >
                   {dept.icon}
                   {dept.name}
@@ -429,7 +429,7 @@ const Careers = () => {
                     onClick={() =>
                       window.open("https://www.graphura.online/apply.html")
                     }
-                    className="lg:self-start px-6 py-3 bg-gray-900 text-white font-semibold rounded-xl hover:bg-black transition-colors"
+                    className="lg:self-start px-6 py-3 bg-[#8b6f47] text-white font-semibold rounded-xl hover:bg-[#7a6140] transition-colors"
                   >
                     Apply Now
                   </button>
@@ -663,7 +663,7 @@ const Careers = () => {
                   </div>
                 </div>
 
-                <div className="bg-gray-900 text-white p-6 rounded-xl">
+                <div className="bg-[#8b6f47] text-white p-6 rounded-xl">
                   <h4 className="font-bold mb-4 flex items-center gap-2">
                     <Target className="w-5 h-5" />
                     Our Mission
@@ -749,7 +749,7 @@ const Careers = () => {
                       {step.icon}
                     </div>
                   </div>
-                  <div className="absolute -top-2 -right-2 w-10 h-10 bg-gray-900 text-white rounded-full flex items-center justify-center font-bold shadow">
+                  <div className="absolute -top-2 -right-2 w-10 h-10 bg-[#8b6f47] text-white rounded-full flex items-center justify-center font-bold shadow">
                     {step.step}
                   </div>
                 </div>

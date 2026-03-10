@@ -385,7 +385,7 @@ const Contactus = () => {
                   <button
                     type="submit"
                     disabled={isLoading}
-                    className="w-40 py-3 bg-gray-900 text-white font-semibold rounded-xl hover:bg-black transition-all hover:shadow-xl flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed text-sm"
+                    className="w-40 py-3 bg-[#8b6f47] text-white font-semibold rounded-xl hover:bg-[#7a6140] transition-all hover:shadow-xl flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed text-sm"
                   >
                     {isLoading ? (
                       <>
@@ -473,7 +473,7 @@ const Contactus = () => {
                     href="https://maps.google.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-black transition-colors text-sm"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-[#8b6f47] text-white rounded-lg hover:bg-[#7a6140] transition-colors text-sm"
                   >
                     <Globe className="w-3 h-3" />
                     Open in Google Maps
@@ -482,14 +482,14 @@ const Contactus = () => {
               </div>
 
               {/* Social Media - Horizontally Expanded */}
-              <div className="bg-gradient-to-br from-gray-900 to-[#2C1810] p-6 rounded-2xl shadow-xl text-white">
+              <div className="bg-[#f5f0eb] p-6 rounded-2xl shadow-xl text-gray-800 border border-[#e8e2d9]">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-10 h-10 bg-[#ECD1A8] rounded-xl flex items-center justify-center">
                     <MessageSquare className="w-5 h-5 text-gray-900" />
                   </div>
                   <div>
                     <h2 className="text-xl font-bold">Connect With Us</h2>
-                    <p className="text-gray-300 text-sm">
+                    <p className="text-gray-500 text-sm">
                       Follow us on social media
                     </p>
                   </div>
@@ -512,18 +512,18 @@ const Contactus = () => {
                 </div>
 
                 {/* Newsletter */}
-                <div className="p-4 bg-white/10 rounded-xl border border-white/20">
+                <div className="p-4 bg-white rounded-xl border border-[#e8e2d9]">
                   <h4 className="font-bold text-sm mb-2">
                     Newsletter Subscription
                   </h4>
-                  <p className="text-gray-300 text-xs mb-3">
+                  <p className="text-gray-500 text-xs mb-3">
                     Subscribe for updates on internship opportunities and news.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-2">
                     <input
                       type="email"
                       placeholder="Enter your email"
-                      className="flex-1 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#ECD1A8] text-sm"
+                      className="flex-1 px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#c4a265] text-sm"
                     />
                     <button className="px-4 py-2 bg-[#ECD1A8] text-gray-900 font-semibold rounded-lg hover:bg-[#D4B483] transition-colors text-sm">
                       Subscribe
@@ -645,11 +645,11 @@ const Contactus = () => {
           viewport={{ once: true }}
           className="w-full"
         >
-          <div className="w-full bg-gradient-to-br from-gray-900 to-[#2C1810] p-8 rounded-2xl shadow-2xl text-white text-center">
+            <div className="w-full bg-[#f5f0eb] p-8 rounded-2xl shadow-2xl text-gray-800 text-center border border-[#e8e2d9]">
             <div className="max-w-3xl mx-auto">
               <MessageSquare className="w-12 h-12 text-[#ECD1A8] mx-auto mb-4" />
               <h2 className="text-3xl font-bold mb-3">Still Have Questions?</h2>
-              <p className="text-gray-300 mb-6 text-sm">
+              <p className="text-gray-500 mb-6 text-sm">
                 Our dedicated support team is here to help you with any
                 questions or concerns.
               </p>

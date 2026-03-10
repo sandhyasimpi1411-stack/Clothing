@@ -355,7 +355,7 @@ const SustainabilityPage = () => {
                           {step.icon}
                         </div>
                       </div>
-                      <div className="absolute -top-2 -right-2 w-10 h-10 bg-gray-900 text-white rounded-full flex items-center justify-center font-bold shadow-lg">
+                      <div className="absolute -top-2 -right-2 w-10 h-10 bg-[#8b6f47] text-white rounded-full flex items-center justify-center font-bold shadow-lg">
                         {step.step}
                       </div>
                     </div>
