@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import leftBlue from "../../assets/Login/userlogin.webp";
 import logo from "../../assets/logo/logoWhite.webp";
 // import leftImage from "../../assets/Login/leftnew.webp";
-import axios from "axios";
+import axios from "../../api/axios.js";
 
 const AdminSignup = () => {
   const navigate = useNavigate();
@@ -19,44 +19,58 @@ const AdminSignup = () => {
     e.preventDefault();
     setError("");
 
+    console.log("===== ADMIN SIGNUP FORM SUBMITTED =====");
+
     // Validation
     if (!email || !password || !confirmPassword) {
+      console.log("VALIDATION FAIL: empty fields");
       setError("Please fill all fields");
       return;
     }
 
     if (password !== confirmPassword) {
+      console.log("VALIDATION FAIL: passwords don't match");
       setError("Passwords do not match");
       return;
     }
 
     if (password.length < 6) {
+      console.log("VALIDATION FAIL: password too short");
       setError("Password must be at least 6 characters");
       return;
     }
 
     setLoading(true);
+    console.log("SENDING POST to /admin/signup with email:", email);
 
     try {
-      const res = await axios.post("/api/admin/signup", { email, password });
+      const res = await axios.post("/admin/signup", { email, password });
+
+      console.log("SIGNUP RESPONSE STATUS:", res.status);
+      console.log("SIGNUP RESPONSE DATA:", JSON.stringify(res.data));
 
       const token =
         res.data.token || res.data.admin?.token || res.data.data?.token;
 
-      console.log("SIGNUP TOKEN:", token);
+      console.log("EXTRACTED TOKEN:", token ? "YES" : "NO");
 
       if (token) {
         localStorage.setItem("admin_token", token);
         localStorage.setItem("graphura_admin", "true");
+        console.log("TOKEN SAVED, navigating to /admin/dashboard");
         navigate("/admin/dashboard");
       } else {
+        console.log("NO TOKEN IN RESPONSE");
         setError("Token not received from server");
       }
     } catch (err) {
+      console.error("===== SIGNUP REQUEST FAILED =====");
+      console.error("ERROR STATUS:", err.response?.status);
+      console.error("ERROR DATA:", JSON.stringify(err.response?.data));
+      console.error("ERROR MESSAGE:", err.message);
       const errorMsg =
         err.response?.data?.message || "Server error. Please try again.";
       setError(errorMsg);
-      toast.error(errorMsg);
     } finally {
       setLoading(false);
     }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "../../api/axios.js";
 
 import logo from "../../assets/logo/logo.webp";
 import userlogin from "../../assets/Login/userlogin.webp";
@@ -18,21 +18,33 @@ const AdminLogin = () => {
     setError("");
     setLoading(true);
 
+    console.log("===== ADMIN LOGIN FORM SUBMITTED =====");
+    console.log("SENDING POST to /admin/login with email:", email);
+
     try {
       const res = await axios.post(
-        "/api/admin/login" ,
+        "/admin/login",
         { email, password },
        
       );
 
+      console.log("LOGIN RESPONSE STATUS:", res.status);
+      console.log("LOGIN RESPONSE DATA:", JSON.stringify(res.data));
+
       if (res.data.token) {
         localStorage.setItem("admin_token", res.data.token);
         localStorage.setItem("graphura_admin", "true");
+        console.log("TOKEN SAVED, navigating to /admin/dashboard");
         navigate("/admin/dashboard");
       } else {
+        console.log("NO TOKEN IN RESPONSE");
         setError(res.data.message || "Login failed");
       }
     } catch (err) {
+      console.error("===== LOGIN REQUEST FAILED =====");
+      console.error("ERROR STATUS:", err.response?.status);
+      console.error("ERROR DATA:", JSON.stringify(err.response?.data));
+      console.error("ERROR MESSAGE:", err.message);
       setError(
         err.response?.data?.message || "Server error. Please try again.",
       );

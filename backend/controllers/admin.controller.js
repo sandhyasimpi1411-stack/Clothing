@@ -3,46 +3,72 @@ import { generateToken } from "../utils/jwt.js";
 import { hashPassword, comparePassword } from "../utils/hash.js";
 
 export const adminSignup = async (req, res) => {
+  console.log("===== ADMIN SIGNUP HIT =====");
+  console.log("REQ BODY:", JSON.stringify(req.body));
   try {
     const { email, password } = req.body;
+    console.log("SIGNUP EMAIL:", email);
+    console.log("SIGNUP PASSWORD LENGTH:", password?.length);
+
+    if (!email || !password) {
+      console.log("SIGNUP ERROR: Missing email or password");
+      return res.status(400).json({ message: "Email and password are required" });
+    }
 
     const exists = await Admin.findOne({ email });
+    console.log("ADMIN EXISTS CHECK:", !!exists);
     if (exists) {
       return res.status(400).json({ message: "Admin already exists" });
     }
 
     const hashed = await hashPassword(password);
+    console.log("PASSWORD HASHED:", !!hashed);
 
     const admin = await Admin.create({
       email,
       password: hashed,
       role: "admin",
     });
+    console.log("ADMIN CREATED:", admin._id, admin.email);
 
     const token = generateToken({
       id: admin._id,
       role: admin.role,
     });
+    console.log("TOKEN GENERATED:", !!token);
 
     res.status(201).json({
       message: "Admin created",
       token,
     });
+    console.log("SIGNUP RESPONSE SENT SUCCESSFULLY");
   } catch (err) {
+    console.error("===== ADMIN SIGNUP ERROR =====", err.message, err.stack);
     res.status(500).json({ message: err.message });
   }
 };
 
 export const adminLogin = async (req, res) => {
+  console.log("===== ADMIN LOGIN HIT =====");
+  console.log("REQ BODY:", JSON.stringify(req.body));
   try {
     const { email, password } = req.body;
+    console.log("LOGIN EMAIL:", email);
+    console.log("LOGIN PASSWORD LENGTH:", password?.length);
+
+    if (!email || !password) {
+      console.log("LOGIN ERROR: Missing email or password");
+      return res.status(400).json({ message: "Email and password are required" });
+    }
 
     const admin = await Admin.findOne({ email });
+    console.log("ADMIN FOUND:", !!admin);
     if (!admin) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
     const isMatch = await comparePassword(password, admin.password);
+    console.log("PASSWORD MATCH:", isMatch);
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
@@ -51,12 +77,15 @@ export const adminLogin = async (req, res) => {
       id: admin._id,
       role: admin.role
     });
+    console.log("TOKEN GENERATED:", !!token);
 
     res.json({
       message: "Login successful",
       token
     });
+    console.log("LOGIN RESPONSE SENT SUCCESSFULLY");
   } catch (err) {
+    console.error("===== ADMIN LOGIN ERROR =====", err.message, err.stack);
     res.status(500).json({ message: "Login failed", error: err.message });
   }
 };

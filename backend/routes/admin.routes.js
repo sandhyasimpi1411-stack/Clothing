@@ -3,6 +3,7 @@ import upload from "../middlewares/upload.middleware.js";
 
 import {
  adminLogin,
+ adminSignup,
  getAdminProfile,
  updateAdminEmail,
  updateAdminPassword,
@@ -19,10 +20,19 @@ import Category from "../models/category.model.js";
 
 const router = express.Router();
 
+console.log("🔥 ADMIN ROUTES FILE LOADED — /signup and /login registered");
 
 /* ================= AUTH ================= */
 
-router.post("/login", adminLogin);
+router.post("/signup", (req, res, next) => {
+  console.log(">>> /api/admin/signup route matched");
+  next();
+}, adminSignup);
+
+router.post("/login", (req, res, next) => {
+  console.log(">>> /api/admin/login route matched");
+  next();
+}, adminLogin);
 
 /* ================= PROFILE ================= */
 
